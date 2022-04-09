@@ -161,7 +161,7 @@ Write-Host "Downloading latest patch (chrome_elf.zip)...`n"
 $elfPath = Join-Path -Path $PWD -ChildPath 'chrome_elf.zip'
 try
 {
-  $uri = 'https://github.com/mrpond/BlockTheSpot/releases/latest/download/chrome_elf.zip'
+  $uri = 'https://github.com/ItzGosho/Spotify/blob/main/chrome_elf.zip'
   Get-File -Uri $uri -TargetFile "$elfPath"
 }
 catch
@@ -178,7 +178,7 @@ $unsupportedClientVersion = ($actualSpotifyClientVersion | Test-SpotifyVersion -
 
 if (-not $UpdateSpotify -and $unsupportedClientVersion)
 {
-  if ((Read-Host -Prompt 'In order to install Block the Spot, your Spotify client must be updated. Do you want to continue? (Y/N)') -ne 'y')
+  if ((Read-Host -Prompt 'In order to install SpotifyPrem, your Spotify client must be updated. Do you want to continue? (Y/N)') -ne 'y')
   {
     exit
   }
@@ -303,7 +303,7 @@ if ($RemoveAdPlaceholder)
   }
   else
   {
-    Write-Host 'Could not find xpui.js, please open an issue on the BlockTheSpot repository.'
+    Write-Host 'Could not find xpui.js, please open an issue in the Discord.'
   }
 
   if ($xpuiContents)
