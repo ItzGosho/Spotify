@@ -179,7 +179,7 @@ $unsupportedClientVersion = ($actualSpotifyClientVersion | Test-SpotifyVersion -
 
 if (-not $UpdateSpotify -and $unsupportedClientVersion)
 {
-  if ((Read-Host -Prompt 'In order to install Block the Spot, your Spotify client must be updated. Do you want to continue? (Y/N)') -ne 'y')
+  if ((Read-Host -Prompt 'In order to install SpotifyPrem, your Spotify client must be updated. Do you want to continue? (Y/N)') -ne 'y')
   {
     exit
   }
