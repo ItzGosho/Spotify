@@ -162,7 +162,7 @@ Write-Host "Downloading latest patch (chrome_elf.zip)...`n"
 $elfPath = Join-Path -Path $PWD -ChildPath 'chrome_elf.zip'
 try
 {
-  $uri = 'https://github.com/ItzGosho/Spotify/blob/main/chrome_elf.zip'
+  $uri = 'https://github.com/ItzGosho/Spotify/releases/download/chrome_elf.zip/chrome_elf.zip'
   Get-File -Uri $uri -TargetFile "$elfPath"
 }
 catch
