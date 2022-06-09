@@ -108,7 +108,7 @@ function Test-SpotifyVersion
 
 Write-Host @'
 *****************
-Authors: @Itz_Gosho
+Authors: Itz_Gosho
 *****************
 '@
 
@@ -147,7 +147,7 @@ Push-Location -LiteralPath $env:TEMP
 try
 {
   # Unique directory name based on time
-  New-Item -Type Directory -Name "SpotifyPrem-$(Get-Date -UFormat '%Y-%m-%d_%H-%M-%S')" |
+  New-Item -Type Directory -Name "BlockTheSpot-$(Get-Date -UFormat '%Y-%m-%d_%H-%M-%S')" |
   Convert-Path |
   Set-Location
 }
@@ -179,7 +179,7 @@ $unsupportedClientVersion = ($actualSpotifyClientVersion | Test-SpotifyVersion -
 
 if (-not $UpdateSpotify -and $unsupportedClientVersion)
 {
-  if ((Read-Host -Prompt 'In order to install SpotifyPrem, your Spotify client must be updated. Do you want to continue? (Y/N)') -ne 'y')
+  if ((Read-Host -Prompt 'In order to install Block the Spot, your Spotify client must be updated. Do you want to continue? (Y/N)') -ne 'y')
   {
     exit
   }
@@ -304,20 +304,19 @@ if ($RemoveAdPlaceholder)
   }
   else
   {
-    Write-Host 'Could not find xpui.js, please open an ticket on the discord.'
+    Write-Host 'Could not find xpui.js, please open an issue on the BlockTheSpot repository.'
   }
 
   if ($xpuiContents)
   {
-    # Replace ".ads.leaderboard.isEnabled" + separator - '}' or ')'
-    # With ".ads.leaderboard.isEnabled&&false" + separator
-    $xpuiContents = $xpuiContents -replace '(\.ads\.leaderboard\.isEnabled)(}|\))', '$1&&false$2'
+    # Disable empty ad block
+    $xpuiContents = $xpuiContents -replace 'adsEnabled:!0', 'adsEnabled:!1'
 
-    # Delete ".createElement(XX,{(spec:X),?onClick:X,className:XX.X.UpgradeButton}),X()"
-    $xpuiContents = $xpuiContents -replace '\.createElement\([^.,{]+,{(?:spec:[^.,]+,)?onClick:[^.,]+,className:[^.]+\.[^.]+\.UpgradeButton}\),[^.(]+\(\)', ''
+    # Disable Upgrade button
+    $xpuiContents = $xpuiContents -replace '.\>\=1024', ' 1!=1 '
 
     # Disable Premium NavLink button
-    $xpuiContents = $xpuiContents -replace '(const|var) .=.\?(`.*?`|"".concat\(.\).concat\(.\)):.;return .\(\)\.createElement\(".",.\(\)\(\{\},.,\{ref:.,href:.,target:"_blank",rel:"noopener nofollow"\}\),.\)', ''
+    $xpuiContents = $xpuiContents -replace '((?:"a"))\S+noopener nofollow.+?,.\)', '$1)'
 
     if ($fromZip)
     {
@@ -349,3 +348,5 @@ Write-Host 'Patching Complete, starting Spotify...'
 
 Start-Process -WorkingDirectory $spotifyDirectory -FilePath $spotifyExecutable
 Write-Host 'Done.'
+
+Write-Host @'
